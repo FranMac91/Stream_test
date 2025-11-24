@@ -9,9 +9,10 @@ DATE_COLUMN="reviewed_at"
 
 def load_data(nrows):
     data=pd.read_csv(DATA_URL, nrows=nrows)
-    lowercase=lambda x:str(x).lower()
-    data.rename(lowercase, axis="columns", inplace=True)
-    data[DATE_COLUMN]=pd.to_datetime(data[DATE_COLUMN])
+    data.rename(lambda x: str(x).lower(), axis="columns", inplace=True)
+    if DATE_COLUMN in data.columns:
+        data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN], errors='coerce')
+    
     return data
 
 
